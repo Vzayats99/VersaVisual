@@ -108,7 +108,7 @@ namespace VersaVisual
             Connection.Parity = comboBoxParity.Text.Trim();
             Connection.StopBits = Convert.ToInt32(comboBoxStopBits.Text);
 
-            Hide();
+            this.Close();
         }
     }
 }
