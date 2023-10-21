@@ -1,0 +1,275 @@
+﻿<Window x:Class="VersaVisual.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VersaVisual"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Versa" Height="700" Width="1000" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
+    <Grid Background="#ffdadada">
+        
+        <Menu VerticalAlignment ="Top" Background="White">
+            <MenuItem Height="25" Width="90">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                        <materialDesign:PackIcon Kind="FileOutline"/>
+                        <TextBlock Text="Файл" Margin=" 5 0"/>
+                    </StackPanel>
+                </MenuItem.Header>
+                
+                <MenuItem  Name="mnuNew" Click="mnuNew_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="FilePlusOutline"/>
+                            <TextBlock Text="Новый" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+
+                <MenuItem Name="mnuOpen" Click="mnuOpen_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="FolderOpenOutline"/>
+                            <TextBlock Text="Открыть" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                
+                <Separator/>
+
+                <MenuItem Name="mnuSave" Click="mnuSave_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="ContentSaveOutline"/>
+                            <TextBlock Text="Сохранить" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+
+                <MenuItem Name="mnuSaveAs" Click="mnuSaveAs_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="ContentSaveAllOutline"/>
+                            <TextBlock Text="Сохранить как" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                
+                <Separator/>
+                
+                <MenuItem Name ="mnuRecents">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="History"/>
+                            <TextBlock Text="Недавние" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <Separator/>
+                    <MenuItem Header="Очистить недавние" Name ="mnuClearRecents" Click="mnuClearRecents_Click"/>
+                </MenuItem>
+
+                <MenuItem  Name="mnuClose" Click="mnuClose_Click">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal" Margin="0 0 -30 0">
+                            <materialDesign:PackIcon Kind="ContentSaveAllOutline"/>
+                            <TextBlock Text="Закрыть" Margin=" 5 0"/>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                
+            </MenuItem>
+            
+            <MenuItem Height="25" Width="135" >
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" Margin="-5 0 -65 0">
+                        <materialDesign:PackIcon Kind="TransitConnection"/>
+                        <TextBlock Text="Соединение" Margin=" 5 0"/>
+                    </StackPanel>
+                </MenuItem.Header>
+                <MenuItem Header="Подключить" Name="mnuConnectionToModbus" Click="mnuConnectionToModbus_Click"/>
+                <MenuItem Header="Прервать соединение" IsEnabled="False" Name="mnuDisconnectionToModbus" Click="mnuDisconnectionToModbus_Click"/>
+            </MenuItem>
+            
+            <MenuItem  Height="25" Width="100" Name="mnuAboutProgram" Click="mnuAboutProgram_Click">
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal" Margin="-7 0 -50 0">
+                        <materialDesign:PackIcon Kind="InfoOutline"/>
+                        <TextBlock Text="Справка" Margin=" 5 0"/>
+                    </StackPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            
+        </Menu>
+
+        <TextBlock Text="" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="5" Name="txtFile"/>
+        <TabControl Margin="0 25 0 0">
+            
+            <TabItem Header="Обработка тэгов">
+                <Grid Margin="0 5 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.68*"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    
+                    <GroupBox Header="Устройство">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Margin="5">
+                                <Button Width="120" Name="btnDevAdd" Click="btnDevAdd_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Добавить" FontSize="12" VerticalAlignment="Center" Margin="3 0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Width="120" Margin="5 0" Name="btnDevEdit" IsEnabled="False" Click="btnDevEdit_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Изменить" FontSize="12" VerticalAlignment="Center" Margin="3 0"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Width="120" Name="btnDevDelete" IsEnabled="False" Click="btnDevDelete_Click" FontSize="12">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Trash" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Удалить" FontSize="12" VerticalAlignment="Center" Margin="3 0"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <Grid DockPanel.Dock="Bottom" Height="250" Visibility="Collapsed" Name="grdDevEdit">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Действие" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Добавить" VerticalAlignment="Center" Name="txtDevMode"/>
+                                <TextBlock Grid.Row="1" Text="ID" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="1" VerticalAlignment="Center" Name="txtDevId"/>
+                                <TextBlock Grid.Row="2" Text="Имя" VerticalAlignment ="Center"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Text="" VerticalAlignment="Center" Name="txtDevName"/>
+                                <TextBlock Grid.Row="3" Text="Серия" VerticalAlignment ="Center"/>
+                                <ComboBox Grid.Row="3" Grid.Column="1" SelectedIndex="0" VerticalAlignment="Center" IsEditable="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" Name="cboDevSeries">
+                                    <ComboBoxItem>Ф205</ComboBoxItem>
+                                    <ComboBoxItem>Ф206</ComboBoxItem>
+                                </ComboBox>
+                                <TextBlock Grid.Row="4" Text="SlaveID" VerticalAlignment ="Center"/>
+                                <TextBox Grid.Row="4" Grid.Column="1" Text="1" VerticalAlignment="Center" Name="txtDevSlaveId"/>
+                                <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Width="110" Name="btnDevOk" Click="btnDevOk_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Check" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Добавить" FontSize="12" VerticalAlignment="Center" Margin="3 0"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Width="110" Margin="10 0" Name="btnDevCancel" Click="btnDevCancel_Click" FontSize="12">
+                                        <StackPanel Orientation="Horizontal" Cursor="">
+                                            <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center"/>
+                                            <TextBlock Text="Отменить" FontSize="12" VerticalAlignment="Center" Margin="3 0"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                            <DataGrid Name="dgDevices" SelectionChanged="dgDevices_SelectionChanged" AutoGenerateColumns="False" CanUserAddRows="False" CanUserSortColumns="False">
+                                <DataGrid.Effect>
+                                    <DropShadowEffect BlurRadius="10" Color="LightGray" ShadowDepth="5"/>
+                                </DataGrid.Effect>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Width="50" Binding="{Binding Path=ID}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Имя" Width="120" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Серия" Width="70" Binding="{Binding Path=Series}" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="SlaveID" Width="90" Binding="{Binding Path=SlaveID}" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </GroupBox>
+                    
+                    <GridSplitter Width="2" Background="Gray" Margin="-2 0"/>
+                    
+                    <GroupBox Header="Тэг" Grid.Column="1" Margin="2 0 0 0">
+                        <DockPanel>
+                            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Margin="5">
+                                <Button Width="60" Name="btnTagAdd"  IsEnabled="False" Click="btnTagAdd_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Plus" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Width="60" Margin="5 0" Name="btnTagEdit" IsEnabled="False" Click="btnTagEdit_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Pencil" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button Width="60" Name="btnTagDelete" IsEnabled="False" Click="btnTagDelete_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Trash" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <Grid DockPanel.Dock="Bottom" Height="200" Visibility="Collapsed" Name="grdTagEdit">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.3*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="40"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0" Text="Действие" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Добавить" VerticalAlignment="Center" Name="txtTagMode"/>
+                                <TextBlock Grid.Row="1" Text="ID" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="0" VerticalAlignment="Center" Name="txtTagId"/>
+                                <TextBlock Grid.Row="2" Text="Имя" VerticalAlignment ="Center"/>
+                                <TextBox Grid.Row="2" Grid.Column="1" Text="" VerticalAlignment="Center" Name="txtTagName"/>
+                                <TextBlock Grid.Row="3" Text="Адрес" VerticalAlignment ="Center"/>
+                                <TextBox Grid.Row="3" Grid.Column="1" Text="" VerticalAlignment="Center" Name="txtTagAddress"/>
+                                <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Width="70" Name="btnTagOk" Click="btnTagOk_Click">
+                                        <StackPanel Orientation="Horizontal">
+                                            <materialDesign:PackIcon Kind="Check" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button Width="70" Margin="10 0" Name="btnTagCancel" Click="btnTagCancel_Click">
+                                        <StackPanel Orientation="Horizontal" Cursor="">
+                                            <materialDesign:PackIcon Kind="Close" VerticalAlignment="Center"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                            <DataGrid Name="dgTags" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="dgTags_SelectionChanged" CanUserSortColumns="False">
+                                <DataGrid.Effect>
+                                    <DropShadowEffect BlurRadius="10" Color="LightGray" ShadowDepth="5"/>
+                                </DataGrid.Effect>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="ID" Width="50" Binding="{Binding Path=ID}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Имя" Width="200" Binding="{Binding Path=Name}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Адрес" Width="150" Binding="{Binding Path=Address}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Значение" Width="100" Binding="{Binding Path=Value}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </DockPanel>
+                    </GroupBox>
+                    
+                </Grid>
+            </TabItem>
+            
+            <TabItem Header="Графики">
+
+            </TabItem>
+            
+            <TabItem Header="Визуализация">
+
+            </TabItem>
+            
+        </TabControl>
+    </Grid>
+</Window>
