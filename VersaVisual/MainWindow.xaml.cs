@@ -93,7 +93,7 @@ namespace VersaVisual
             }
 
             timerPoll = new DispatcherTimer();
-            timerPoll.Interval = TimeSpan.FromSeconds(10);
+            timerPoll.Interval = TimeSpan.FromMilliseconds(1000);
             timerPoll.Tick += TimerPoll_Tick; ;
 
         }
@@ -674,25 +674,14 @@ namespace VersaVisual
 
         private void mnuDisconnectionToModbus_Click(object sender, RoutedEventArgs e)
         {
-
+            timerPoll.Stop();
+            serialPort.Close();
+            mnuDisconnectionToModbus.IsEnabled = false;
         }
 
         private void mnuAboutProgram_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-
-        private void Button_Test_Click(object sender, RoutedEventArgs e)
-        {
-            //byte slaveID = 1;
-            //ushort startAddress = 534;
-            //ushort numOfPoints = 3;
-            //ushort[] holding_register = modbusSerialMaster.ReadHoldingRegisters(slaveID, startAddress,numOfPoints);
-
-            //foreach (ushort register in holding_register) 
-            //{
-            //    textOut.Text +="Регистр: " + Convert.ToString(register);
-            //}     
         }
 
         private void ConnectionToModbusWindowClick(object sender, EventArgs e)
@@ -726,6 +715,7 @@ namespace VersaVisual
                 serialPort.Open();
                 modbusSerialMaster = ModbusSerialMaster.CreateRtu(serialPort);
                 timerPoll.Start();
+                mnuDisconnectionToModbus.IsEnabled = true;
             }
             catch(Exception)
             {
@@ -736,9 +726,6 @@ namespace VersaVisual
         }
         private void Window_Closed(object sender, EventArgs e)
         {
-            if(serialPort != null)
-                serialPort.Close();
-            timerPoll.Stop();
             this.Close();
         }
 
@@ -747,16 +734,29 @@ namespace VersaVisual
             int indexDevId = selectedDeviceId;
             byte slaveId = byte.Parse(devicesList[indexDevId].SlaveID);
 
-            if (serialPort.IsOpen)
+            for (int i = 0; i < devicesList[indexDevId].tagsList.Count; i++)
             {
-                for (int i = 0; i < devicesList[indexDevId].tagsList.Count; i++)
-                {
-                    ushort address = ushort.Parse(devicesList[indexDevId].tagsList[i].Address);
-                    ushort[] value = modbusSerialMaster.ReadHoldingRegisters(slaveId, address, 1);
-                    devicesList[indexDevId].tagsList[i].Value = value[0].ToString();
-                }
+                ushort address = ushort.Parse(devicesList[indexDevId].tagsList[i].Address);
+                ushort[] value = modbusSerialMaster.ReadHoldingRegisters(slaveId, address, 1);
+                devicesList[indexDevId].tagsList[i].Value = value[0].ToString();
+            }
+
+            if (btnTagWrite.Background != Brushes.Orange)
+            {
                 dgTags.ItemsSource = null;
                 dgTags.ItemsSource = devicesList[indexDevId].tagsList;
+            }
+        }
+
+        private void btnTagWrite_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnTagWrite.Background != Brushes.Orange)
+            {
+                btnTagWrite.Background = Brushes.Orange;
+            }
+            else
+            {
+                btnTagWrite.Background = Brushes.Teal;
             }
         }
     }

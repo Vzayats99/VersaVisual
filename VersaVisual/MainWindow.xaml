@@ -210,6 +210,11 @@
                                         <materialDesign:PackIcon Kind="Trash" VerticalAlignment="Center"/>
                                     </StackPanel>
                                 </Button>
+                                <Button Background="Teal" Width="60" Margin="5 0" Name="btnTagWrite" Click="btnTagWrite_Click" ToolTip="Записать">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="PencilLockOutline" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                             <Grid DockPanel.Dock="Bottom" Height="200" Visibility="Collapsed" Name="grdTagEdit">
                                 <Grid.ColumnDefinitions>
